@@ -6,13 +6,15 @@
 3. [Instalación](#installation)
 
 
-### Información general del proyecto
-***
 
-## 1.1: Introducción
+<a name="general-info"></a>
+
+## Información general del proyecto
+
+### 1.1: Introducción
 El objetivo principal de esta API es proporcionar a los colegios una herramienta para prevenir y detectar el bullying en sus alumnos. La API permitirá a los colegios registrarse en la plataforma web y solicitar identificadores únicos para sus alumnos, lo que les permitirá responder a una encuesta. La API procesará los resultados de la encuesta a través de un modelo de Machine Learning en GCP para determinar si el alumno sufre o no de bullying. Toda el proyecto será desplegado en GCP.
 
-## 1.2: Estructura del carpetas
+### 1.2: Estructura del carpetas
 El proyecto tiene la siguiente estructura:
 ```
         fastapi/
@@ -69,29 +71,9 @@ El proyecto tiene la siguiente estructura:
 - endpoints/: carpeta que contiene las rutas y controladores para los endpoints de la aplicación.
 - machine_learning/: carpeta que contiene los archivos relacionados con el modelo de aprendizaje automático.
 
-## 1.3: Dependencias
-Las dependencias utilizadas en el proyecto son:
-
-- fastapi==0.95.0: Es un framework web para construir APIs rápidas y escalables con Python 3.6+ basado en estándares abiertos. Proporciona herramientas para la validación de datos, la documentación de API y la autenticación de usuario.
-- uvicorn==0.21.1: Es un servidor web asincrónico basado en ASGI (Asynchronous Server Gateway Interface) que permite servir aplicaciones web construidas con el framework FastAPI.
-- google-auth: Es una biblioteca de autenticación para Python que permite autenticar con la API de Google Cloud Platform y otras APIs de Google.
-- google-auth-oauthlib: Es una biblioteca de autenticación de OAuth 2.0 para Google APIs.
-- google-auth-httplib2: Es una biblioteca de autenticación de HTTP para Google APIs.
-- google-cloud-storage: Es una biblioteca que permite interactuar con Google Cloud Storage desde Python.
-- pandas: Es una biblioteca de análisis de datos de código abierto para Python que proporciona estructuras de datos y herramientas para el análisis de datos.
-- numpy: Es una biblioteca de cálculo numérico para Python que proporciona una gran cantidad de funciones matemáticas y de álgebra lineal.
-- scikit-learn: Es una biblioteca de aprendizaje automático de código abierto para Python que proporciona herramientas para la minería de datos y el análisis de datos.
-- psycopg2-binary==2.9.5: Es un adaptador de base de datos PostgreSQL para Python que permite interactuar con bases de datos PostgreSQL desde Python.
-- dotenv: Es una biblioteca que permite cargar variables de entorno desde un archivo .env en la raíz del proyecto.
-- jwt==1.3.1: Es una biblioteca que permite codificar y decodificar tokens de autenticación JSON Web Tokens (JWT) en Python.
-- peewee==3.16.0: Es una biblioteca de ORM (Object Relational Mapper) de Python que proporciona una forma sencilla de interactuar con bases de datos relacionales desde Python.
-- pydantic==1.10.7: Es una biblioteca que proporciona herramientas para la validación de datos y la serialización de objetos en Python.
-- bcrypt==1.7.4: Es una biblioteca de hash de contraseñas en Python que proporciona herramientas para la generación y verificación de contraseñas seguras.
-- python-jose==3.3.0: Es una biblioteca de Python para JSON Object Signing and Encryption (JOSE) que proporciona herramientas para codificar y decodificar tokens de autenticación JSON Web Tokens (JWT) y para cifrar y descifrar datos en JSON.
-
-## 1.4: Modelos de datos: 
+### 1.4: Modelos de datos: 
 Para realizar el modelado de los datos usaremos la libreria peewe. Definiremos los siguientes modelos
-###   School
+####   School
 - school_id: campo autoincremental que actúa como clave primaria de la tabla.
 - desc_school: campo de tipo CharField que almacena la descripción de la escuela.
 - cif: campo de tipo CharField que almacena el código de identificación fiscal de la escuela.
@@ -108,7 +90,7 @@ Para realizar el modelado de los datos usaremos la libreria peewe. Definiremos l
 - comments: campo de tipo TextField que almacena comentarios adicionales sobre la escuela.
 - disable: campo de tipo BooleanField que indica si la escuela está deshabilitada o no.
 
-### Master
+#### Master
 
 - entry_id: campo autoincremental que actúa como clave primaria de la tabla. 
 - school_id: campo de tipo ForeignKeyField que hace referencia a la tabla School y almacena el ID de la escuela asociada al registro. 
@@ -120,7 +102,7 @@ Para realizar el modelado de los datos usaremos la libreria peewe. Definiremos l
 - date_update: campo de tipo DateTimeField que almacena la fecha y hora de la última actualización del registro.
 - comments: campo de tipo TextField que almacena comentarios adicionales sobre el registro.
 
-### School_types
+#### School_types
 El modelo "School_types" define una tabla en la base de datos que almacena información sobre los diferentes tipos de escuelas que pueden ser registradas en el sistema. Esta tabla tiene los siguientes campos:
 
 - type_id: campo autoincremental que actúa como clave primaria de la tabla.
@@ -128,7 +110,7 @@ El modelo "School_types" define una tabla en la base de datos que almacena infor
 - dt_insert: campo de tipo DateTimeField que almacena la fecha y hora de inserción del registro en la tabla. 
 - dt_update: campo de tipo DateTimeField que almacena la fecha y hora de la última actualización del registro en la tabla.
 
-### Countries
+#### Countries
 El modelo "Countries" define una tabla en la base de datos que almacena información sobre los países donde se encuentran las diferentes escuelas registradas en el sistema. Esta tabla tiene los siguientes campos:
 country_id: campo autoincremental que actúa como clave primaria de la tabla. •
 desc_country: campo de tipo CharField que almacena la descripción del país. 
@@ -136,7 +118,7 @@ dt_insert: campo de tipo DateTimeField que almacena la fecha y hora de inserció
 dt_update: campo de tipo DateTimeField que almacena la fecha y hora de la última actualización del registro en la tabla.
 
 
-### Student
+#### Student
 El modelo "Student" define una tabla en la base de datos que almacena información sobre los estudiantes registrados en una escuela y sus comentarios y calificaciones sobre las encuestas realizadas. Esta tabla tiene los siguientes campos:
 - student_id: campo de tipo TextField que actúa como clave primaria de la tabla y almacena el ID del estudiante. 
 - school_id: campo de tipo ForeignKeyField que hace referencia a la tabla School y almacena el ID de la escuela asociada al estudiante.
@@ -146,7 +128,7 @@ El modelo "Student" define una tabla en la base de datos que almacena informaci�
 - credits: campo de tipo IntegerField que almacena los créditos del estudiante. 
 - times_done: campo de tipo IntegerField que almacena la cantidad de veces que el estudiante ha completado las encuestas.
 
-### SurveyModels
+#### SurveyModels
 El modelo "SurveyModels" define una tabla en la base de datos que almacena información relacionada con los modelos de encuestas. Esta tabla tiene los siguientes campos:
 - model_id: campo autoincremental que actúa como clave primaria de la tabla. 
 - desc_survey: campo de tipo CharField que almacena la descripción del modelo de encuesta. 
@@ -154,28 +136,28 @@ El modelo "SurveyModels" define una tabla en la base de datos que almacena infor
 - date_update: campo de tipo DateTimeField que almacena la fecha de actualización del registro. 
 - comments: campo de tipo TextField que almacena comentarios adicionales sobre el modelo de encuesta.
 
-### Survey_Questions
+#### Survey_Questions
 El modelo "Survey_Questions" define una tabla en la base de datos que almacena información relacionada con las preguntas de los modelos de encuestas. Esta tabla tiene los siguientes campos:
 - model_id: campo de tipo ForeignKeyField que hace referencia a la tabla SurveyModels y almacena el ID del modelo de encuesta asociado a la pregunta. 
 - answer_id: campo que hace referencia al tipo de respuestas de la pregunta del test.
 - order_num: campo de tipo IntegerField que almacena el orden de la pregunta dentro del modelo de encuesta. 
 - quest: campo de tipo TextField que almacena el texto de la pregunta.
 
-###  Response_answers
+####  Response_answers
 El modelo  "Response_answers", almacena las posibles respuestas a las preguntas del test, contiene los siguientes campos:
 - answer_id: campo de tipo clave primaria
 - answer: columna donde se almacena los distintos tipos de respuestas
 
-### answers
+#### answers
 El modelo "answers" almacena las respuestas de los alumnos, contiene los siguientes campos:
 - answe_student_id: clave primaria, identificador de las respuestas del alumno
 - entry_id: clave foranea de la tabla master
 - model_id: clave foranea de la tabla survey_models
 - answer_json: columna donde se almacena el json con las respuesta del alumno.
 
-## 1.4: Endpoints:
+### 1.4: Endpoints:
 
-### School_endpoints.py
+#### School_endpoints.py
 Estos endpoints forman parte de una API de gestión de colegios y autenticación de usuarios mediante tokens:
 - Método: POST, Endpoint: /register/
         Descripción: Crea un nuevo colegio en la app.
@@ -301,7 +283,7 @@ Estos endpoints forman parte de una API de gestión de colegios y autenticación
 
         ``` 
         
-### Survey_endpoints.py
+#### Survey_endpoints.py
 Los siguientes endpoints están relacionados con las encuestas
 - Método: POST, Endpoint: /survey/questions/{student_id}
         Descripción: Permite acceder a la encuesta a través del identificador del alumno.
@@ -478,8 +460,28 @@ Los siguientes endpoints están relacionados con las encuestas
           }
                
                 
-         formato respuesta -application/json      
-          
+         formato respuesta -application/json   
+         
+            
+## 1.3: Dependencias
+Las dependencias utilizadas en el proyecto son:
+
+- fastapi==0.95.0: Es un framework web para construir APIs rápidas y escalables con Python 3.6+ basado en estándares abiertos. Proporciona herramientas para la validación de datos, la documentación de API y la autenticación de usuario.
+- uvicorn==0.21.1: Es un servidor web asincrónico basado en ASGI (Asynchronous Server Gateway Interface) que permite servir aplicaciones web construidas con el framework FastAPI.
+- google-auth: Es una biblioteca de autenticación para Python que permite autenticar con la API de Google Cloud Platform y otras APIs de Google.
+- google-auth-oauthlib: Es una biblioteca de autenticación de OAuth 2.0 para Google APIs.
+- google-auth-httplib2: Es una biblioteca de autenticación de HTTP para Google APIs.
+- google-cloud-storage: Es una biblioteca que permite interactuar con Google Cloud Storage desde Python.
+- pandas: Es una biblioteca de análisis de datos de código abierto para Python que proporciona estructuras de datos y herramientas para el análisis de datos.
+- numpy: Es una biblioteca de cálculo numérico para Python que proporciona una gran cantidad de funciones matemáticas y de álgebra lineal.
+- scikit-learn: Es una biblioteca de aprendizaje automático de código abierto para Python que proporciona herramientas para la minería de datos y el análisis de datos.
+- psycopg2-binary==2.9.5: Es un adaptador de base de datos PostgreSQL para Python que permite interactuar con bases de datos PostgreSQL desde Python.
+- dotenv: Es una biblioteca que permite cargar variables de entorno desde un archivo .env en la raíz del proyecto.
+- jwt==1.3.1: Es una biblioteca que permite codificar y decodificar tokens de autenticación JSON Web Tokens (JWT) en Python.
+- peewee==3.16.0: Es una biblioteca de ORM (Object Relational Mapper) de Python que proporciona una forma sencilla de interactuar con bases de datos relacionales desde Python.
+- pydantic==1.10.7: Es una biblioteca que proporciona herramientas para la validación de datos y la serialización de objetos en Python.
+- bcrypt==1.7.4: Es una biblioteca de hash de contraseñas en Python que proporciona herramientas para la generación y verificación de contraseñas seguras.
+- python-jose==3.3.0: Es una biblioteca de Python para JSON Object Signing and Encryption (JOSE) que proporciona herramientas para codificar y decodificar tokens de autenticación JSON Web Tokens (JWT) y para cifrar y descifrar datos en JSON.
         
 ## 1.5: Autentificación 
 El endpoint para la autenticación es /token. La autenticación utiliza el esquema de autenticación OAuth2, es decir, permite a las aplicaciones obtener tokens de acceso en nombre de un usuario al enviar las credenciales del usuario directamente al servidor de autorización.
