@@ -528,7 +528,7 @@ $ git clone https://github.com/BrainWaveBullying/BullyingProject.git
 
 Una vez tengamos clonado el repositorio navegaremos hasta la carpeta del proyecto de la api con el siguiente comando
 
-´´´
+```
 $ cd API/
 
 ```
