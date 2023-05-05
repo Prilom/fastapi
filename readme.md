@@ -1,9 +1,19 @@
-# 1: API BrainWave-BullyingProject
+# API BrainWave-BullyingProject
+
+## Table of Contents
+1. [Información general del proyecto](#general-info)
+2. [Dependencias y tecnologías](#technologies)
+3. [Instalación](#installation)
+
+
+## Table of Contents
+<a name="general-info"></a>
+### General Info
 
 ## 1.1: Introducción
 El objetivo principal de esta API es proporcionar a los colegios una herramienta para prevenir y detectar el bullying en sus alumnos. La API permitirá a los colegios registrarse en la plataforma web y solicitar identificadores únicos para sus alumnos, lo que les permitirá responder a una encuesta. La API procesará los resultados de la encuesta a través de un modelo de Machine Learning en GCP para determinar si el alumno sufre o no de bullying. Toda el proyecto será desplegado en GCP.
 
-## 1.2: Estructura del proyecto
+## 1.2: Estructura del carpetas
 El proyecto tiene la siguiente estructura:
 ```
         fastapi/
@@ -306,7 +316,8 @@ Los siguientes endpoints están relacionados con las encuestas
                 
                 
          formato respuesta -application/json        
-         
+    ```
+
      {    
     "questions": [
     {
@@ -447,6 +458,8 @@ Los siguientes endpoints están relacionados con las encuestas
       "answer": "[\"Nunca\",\"Rara vez\",\"Algunas veces\",\"Casi siempre\",\"Siempre\"]"
     },]
     }
+
+    ```
 - Método: POST, Endpoint: /survey/submit
         Descripción: Recoje json con respuestas de encuesta del alumno y el student_id. Realiza el registro de la encuesta en la tabla master, almacena en la tabla answers las respuestas y realiza la prediccion y la almacena.
         Parámetros: student_id: Identificador del alumno que se desea obtener la encuesta.
