@@ -638,7 +638,8 @@ Seleccionaremos la región.
 Es en este punto donde usarmos el archivo yaml en donde esta la configuración de implementación para desplegar la app
 mediante el siguiente comando
 
-```gcloud app deployd app.yaml
+```
+gcloud app deployd app.yaml
 ```
 
 Seguiremos los pasos que nos va indicando la shell y tras unos minutos la aplicación estara funcionando en cloud. Tras este último proceso nos indicará la url donde está desplegada la API
