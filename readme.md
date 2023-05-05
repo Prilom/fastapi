@@ -523,14 +523,12 @@ Levantar la aplicación en local es una tarea muy sencilla. Lo primero que vamos
 
 ```
 $ git clone https://github.com/BrainWaveBullying/BullyingProject.git
-
 ```
 
 Una vez tengamos clonado el repositorio navegaremos hasta la carpeta del proyecto de la api con el siguiente comando
 
 ```
 $ cd API/
-
 ```
 
 Una vez dentro de esa carpeta, crearemos el entorno virtual para instalar todas la dependencias necesarias y lo activaremos
@@ -538,34 +536,125 @@ Una vez dentro de esa carpeta, crearemos el entorno virtual para instalar todas 
 ```
 $ virtualenv env
 $ cd env/Scripts/activate
-
 ```
 
 y volvemos a la carpeta inicial ejecutando dos veces el comando siguente
 
 ```
 cd ..
-
 ```
 
-Tras estos pasos procederemos a la instalacion de requirements.txt
+Tras estos pasos procederemos a la instalacion de las bibliotecas relacionadas con el proyecto, éstas se encuentran en  requirements.txt . Para instalar todos los módulos de una sola vez, ejecute el siguiente comando.
 
 ```
 $ pip install -r requirements.txt
-
 ```
 
 Con esto tendremos el entorno virtual listo para poder levantar la aplicación. Para ello usaremos el siguiente comando en consola
 
 ```
 uvicorn main:app --reload
-
 ```
 
 Y en este momento tendremos la aplicación levantada en https://localhosts:8080, y lista para funcionar.
 
 
 #### Despliegue en GCP(App Engine)
+
+##### Requisitos previos
+- Cuenta de Google Cloud Platform con cuenta de facturación activada.
+- Tener creado un proyecto en Google Cloud Platform 
+
+#### Configuración de fichero YAML para implementar FastAPI en Google App Engine
+
+Google Cloud Platform permite que App Engine realice la implementación en función de una configuración definida en un archivo yaml. Para que alojemos FastAPI en Google App Engine, la configuración de yaml debe tener la siguiente configuración.
+
+```
+runtime: python37
+entrypoint: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+```
+Nuestro repositorio tiene un archivo  app.yaml  en la raíz del proyecto FastAPI, que tiene la configuración yaml especificada anteriormente para ayudar a implementar FastAPI en App Engine.
+
+#### Clonar el repositorio de git en GCP
+ 
+Primeramente debemos activar el CloudShell y posteriormente escribiremos el siguiente comando
+
+```
+git clone https://github.com/BrainWaveBullying/BullyingProject.git
+
+```
+Navegaremos al directorio de trabajo mediante el siguiente comando:
+
+```
+cd API/
+```
+
+#### Creación y activacion del entorno virtual
+
+Crearemos el entorno mediante el siguiente comando
+
+```
+virtualenv env
+```
+
+Con el siguiente comando lo activaremos
+
+```
+source env/bin/activate
+```
+
+#### Instalamos las dependencias 
+
+Ejecutamos el siguiente comando
+
+```
+pip install requirements.txt
+```
+
+#### Vista previa de la aplicación
+
+Tras los pasos anteriores verificaremos si existe algun problema antes de compilar el proyecto en app engine. Para ello comprobaremos si la app se levanta sin problemas mediante el siguiente comando
+
+```
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker principal:aplicación
+```
+
+Para obtener una vista previa, haga clic en el botón Vista previa en la parte superior derecha de la capa de la nube, como se muestra. Seleccione cambiar puerto y elija 8000 como nuestro puerto en el que se puede obtener una vista previa de nuestra aplicación. Elegimos 8000 porque nuestra aplicación está escuchando en ese puerto.
+
+#### Implementación de la aplicación FastAPI en App Engine
+
+Para implementar la aplicación FastAPI en App Engine y acceder a ella a través de un dominio personalizado o por defecto your-proj-id.appspot.com, necesitamos crear la aplicación gcloud e implementar nuestra aplicación.
+
+Escribiremos en consola el siguiente comando
+
+```
+gcloud app create
+```
+
+Seleccionaremos la región.
+
+#### Compliaremos la aplicación FastAPI en GCP App Engine
+
+Es en este punto donde usarmos el archivo yaml en donde esta la configuración de implementación para desplegar la app
+mediante el siguiente comando
+
+```gcloud app deployd app.yaml
+```
+
+Seguiremos los pasos que nos va indicando la shell y tras unos minutos la aplicación estara funcionando en cloud. Tras este último proceso nos indicará la url donde está desplegada la API
+
+
+
+ 
+
+
+
+
+
+
+
+
+
 
 
 
