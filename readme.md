@@ -1,14 +1,15 @@
 # API BrainWave-BullyingProject
 
-## Table of Contents
+## Tabla de contenidos
 1. [Información general del proyecto](#general-info)
 2. [Dependencias y tecnologías](#technologies)
 3. [Instalación](#installation)
 
 
-## Table of Contents
+
 <a name="general-info"></a>
-### General Info
+
+### Información general del proyecto
 
 ## 1.1: Introducción
 El objetivo principal de esta API es proporcionar a los colegios una herramienta para prevenir y detectar el bullying en sus alumnos. La API permitirá a los colegios registrarse en la plataforma web y solicitar identificadores únicos para sus alumnos, lo que les permitirá responder a una encuesta. La API procesará los resultados de la encuesta a través de un modelo de Machine Learning en GCP para determinar si el alumno sufre o no de bullying. Toda el proyecto será desplegado en GCP.
