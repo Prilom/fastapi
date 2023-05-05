@@ -159,7 +159,8 @@ El modelo  "Response_answers", almacena las posibles respuestas a las preguntas 
 
 ### answers
 El modelo "answers" almacena las respuestas de los alumnos, contiene los siguientes campos:
-- entry_id: clave primaria, y a su vez clave foranea de la tabla master
+- answe_student_id: clave primaria, identificador de las respuestas del alumno
+- entry_id: clave foranea de la tabla master
 - model_id: clave foranea de la tabla survey_models
 - answer_json: columna donde se almacena el json con las respuesta del alumno.
 
@@ -262,37 +263,47 @@ Estos endpoints forman parte de una API de gestión de colegios y autenticación
         'BACHILLERATO': {'Curso 1': {'Aula 1': ['202341BAC1Au1001']}}
                     }
         
-- Método: GET, Endpoint: /queryPrediction
-        Descripción: Permite a los colegios obtener los resultados de las predicciones de sus alumnos mediante tres campos de busqueda
-        Parámetros: student_id -> Identificador del alumno
-                    start_date -> Fecha inicio busqueda
-                    end_date  -> Fecha fin busqueda
-        Respuesta: Devuelve un json con la consulta realizada por el colegio
+- Método: GET, Endpoint: /profile
+        Descripción: Realiza consulta a la base de datos de las fechas en las que el colegio realizo los test para mostrarlos   en la web
+        Parámetros: Solo recibe por parámetro el token de autentificacion
 
-        formato peticion -application/json 
+        Respuesta: Devuelve un json con las fechas de los test solicitados 
+        
+        formato respuesta -application/json 
+         
+- Método: POST, Endpoint: /query
+        Descripción: Realiza la consulta de los student_id y sus predicciones.
+        Parámetros: Recibe una fecha en formato 'April - 2023', y un parámetro llamado order_by que indica a la api como ordenar el resultado de la busqueda, unicamente adminte 'student_id' y 'prediction'
+        Respuesta: Devuelve un json con los id de estudiante y sus predicciones
 
+        formato petición -application/json
+
+        ```
         {
-          "student_id": "202304PRIM1Au1003",
-          "start_date": "2023-04-24T17:30:24.072Z",
-          "end_date": "2023-04-24T17:30:24.072Z"
+          "order_by": "string",
+          "date": "string"
         }
 
-        formato respuesta -application/json 
+        ```
 
+        formato respuesta -application/json
 
+        ```
+
+        ``` 
         
 ### Survey_endpoints.py
 Los siguientes endpoints están relacionados con las encuestas
-- Método: POST, Endpoint: /survey/{student_id}
+- Método: POST, Endpoint: /survey/questions/{student_id}
         Descripción: Permite acceder a la encuesta a través del identificador del alumno.
         Parámetros: student_id: Identificador del alumno que se desea obtener la encuesta.
-         ques: Objeto SurveyQuestions con las preguntas de la encuesta.
-        Respuesta: Retorna un diccionario con las preguntas de la encuesta y las opciones de respuesta para cada una. Se espera que el estudiante responda la encuesta y se guarden las respuestas en la base de datos.
-        
-         formato peticion -application/json        
-                {
+         
+        Respuesta: Retorna un diccionario con las preguntas de la encuesta y las opciones de respuesta para cada una. 
+
+         formato peticion - string       
+                
           "student_id": "string",
-                }
+                
                 
          formato respuesta -application/json        
          
@@ -436,12 +447,27 @@ Los siguientes endpoints están relacionados con las encuestas
       "answer": "[\"Nunca\",\"Rara vez\",\"Algunas veces\",\"Casi siempre\",\"Siempre\"]"
     },]
     }
-- Método: POST, Endpoint: /survey/{student_id}/submit
-        Descripción: Recoje json con respuestas de encuesta del alumno, el nombre del colegio y el student_id.
+- Método: POST, Endpoint: /survey/submit
+        Descripción: Recoje json con respuestas de encuesta del alumno y el student_id. Realiza el registro de la encuesta en la tabla master, almacena en la tabla answers las respuestas y realiza la prediccion y la almacena.
         Parámetros: student_id: Identificador del alumno que se desea obtener la encuesta.
-         ques: Objeto SurveyQuestions con las preguntas de la encuesta.
-        Respuesta: Retorna un diccionario con las preguntas de la encuesta y las opciones de respuesta para cada una. Se espera que el estudiante    responda la encuesta y se guarden las respuestas en la base de datos.
-        
+         answers: Objeto SurveyQuestions con las preguntas de la encuesta.
+        Respuesta: retorna un mesaje con informando sobre el preceso
+
+        formato peticion - application/json         
+                
+          {
+          "student_id": "string",
+          "answers": 
+                    {
+                      "additionalProp1": 0,
+                      "additionalProp2": 0,
+                      "additionalProp3": 0
+                    }
+          }
+               
+                
+         formato respuesta -application/json      
+          
         
 ## 1.5: Autentificación 
 El endpoint para la autenticación es /token. La autenticación utiliza el esquema de autenticación OAuth2, es decir, permite a las aplicaciones obtener tokens de acceso en nombre de un usuario al enviar las credenciales del usuario directamente al servidor de autorización.
