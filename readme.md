@@ -2,10 +2,8 @@
 
 ## Tabla de contenidos
 1. [Información general del proyecto](#general-info)
-2. [Dependencias y tecnologías](#technologies)
+2. [Tecnologías y dependencias](#technologies)
 3. [Instalación](#installation)
-
-
 
 <a name="general-info"></a>
 
@@ -155,7 +153,20 @@ El modelo "answers" almacena las respuestas de los alumnos, contiene los siguien
 - model_id: clave foranea de la tabla survey_models
 - answer_json: columna donde se almacena el json con las respuesta del alumno.
 
-### 1.4: Endpoints:
+### 1.4: Autentificación 
+El endpoint para la autenticación es /token. La autenticación utiliza el esquema de autenticación OAuth2, es decir, permite a las aplicaciones obtener tokens de acceso en nombre de un usuario al enviar las credenciales del usuario directamente al servidor de autorización.
+En este flujo, el usuario proporciona sus credenciales de inicio de sesión (cif y contraseña)a la app, que a su vez envía una solicitud de token de acceso al servidor de autorización. El servidor de autorización autentica al usuario y, si las credenciales son correctas, emite un token de acceso al cliente. Este token puede usarse para acceder a los recursos protegidos por el servidor de recursos (API).
+Para obtener un token de acceso, se debe enviar una solicitud POST a /token con los siguientes datos de formulario:
+ - cif: identificación fiscal del centro.
+ - password: Contraseña.
+ 
+Si las credenciales son válidas, el servidor responderá con un token de acceso válido.
+Los endpoints que requieren autenticación utilizan el esquema de autenticación Bearer con el token de acceso recibido en el paso anterior.
+Los endpoints que requieren autenticación son:
+ /payment 
+/survey/applicate_id.
+
+### 1.5: Endpoints:
 
 #### School_endpoints.py
 Estos endpoints forman parte de una API de gestión de colegios y autenticación de usuarios mediante tokens:
@@ -461,9 +472,28 @@ Los siguientes endpoints están relacionados con las encuestas
                
                 
          formato respuesta -application/json   
-         
-            
-## 1.3: Dependencias
+
+<a name="technologies"></a>
+
+## Tecnologías y dependencias
+
+### Tecnologías
+
+#### FastApi
+
+Para la realización de esta API, hemos optado por usar el marco web basado en Python, Fastapi. Su estructura de desarrollo es similar a Flask.
+Fastapi es fácil de usar y su [documentación](https://fastapi.tiangolo.com/es/) es clara. Además ofrece un alto rendimiento, y genera la documentación de forma automática con un esfuerzo mínimo por parte del desarrollador. Esta información se puede encontrar en el directorio /docs de la aplicación.  La documentación contiene información detallada sobre puntos finales de API, códigos de retorno, parámetros de respuesta y otros detalles.
+
+#### App Engine de Google Cloud Platform
+
+Para realizar el despliegue del proyecto de la API en cloud hemos optado por App Engine.  Google App Engine es otro de los servicios que conforman la familia de Google Cloud Platform. Este servicio es del tipo Plataforma como Servicio o Platform as a Service (PaaS), nos permite publicar aplicaciones web en línea sin necesidad de preocuparnos por la parte de la infraestructura y con un enfoque 100% en la construcción de nuestra aplicación y en la posibilidad de correrla directamente sobre la infraestructura de Google, es decir, la que Google usa para sus propios productos.
+
+Como cualquier otra Plataforma como Servicio, App Engine nos facilita construir, mantener y escalar nuestra aplicación en la medida que sea necesario. Cuando usamos Google App Engine (GAE) no nos tenemos que preocupar por la escalabilidad de nuestra aplicación ya que cuenta con un balanceador de carga y escalamiento automático.
+
+Así nuestra aplicación solamente será atendida por las máquinas necesarias para tener un perfecto comportamiento y para que la respuesta de nuestra aplicacion sea la más óptima.
+
+
+### Dependencias
 Las dependencias utilizadas en el proyecto son:
 
 - fastapi==0.95.0: Es un framework web para construir APIs rápidas y escalables con Python 3.6+ basado en estándares abiertos. Proporciona herramientas para la validación de datos, la documentación de API y la autenticación de usuario.
@@ -483,15 +513,10 @@ Las dependencias utilizadas en el proyecto son:
 - bcrypt==1.7.4: Es una biblioteca de hash de contraseñas en Python que proporciona herramientas para la generación y verificación de contraseñas seguras.
 - python-jose==3.3.0: Es una biblioteca de Python para JSON Object Signing and Encryption (JOSE) que proporciona herramientas para codificar y decodificar tokens de autenticación JSON Web Tokens (JWT) y para cifrar y descifrar datos en JSON.
         
-## 1.5: Autentificación 
-El endpoint para la autenticación es /token. La autenticación utiliza el esquema de autenticación OAuth2, es decir, permite a las aplicaciones obtener tokens de acceso en nombre de un usuario al enviar las credenciales del usuario directamente al servidor de autorización.
-En este flujo, el usuario proporciona sus credenciales de inicio de sesión (cif y contraseña)a la app, que a su vez envía una solicitud de token de acceso al servidor de autorización. El servidor de autorización autentica al usuario y, si las credenciales son correctas, emite un token de acceso al cliente. Este token puede usarse para acceder a los recursos protegidos por el servidor de recursos (API).
-Para obtener un token de acceso, se debe enviar una solicitud POST a /token con los siguientes datos de formulario:
- - cif: identificación fiscal del centro.
- - password: Contraseña.
- 
-Si las credenciales son válidas, el servidor responderá con un token de acceso válido.
-Los endpoints que requieren autenticación utilizan el esquema de autenticación Bearer con el token de acceso recibido en el paso anterior.
-Los endpoints que requieren autenticación son:
- /payment 
-/survey/applicate_id.
+<a name="general-info"></a>
+
+## Instalación
+
+#### Local
+
+Levantar la aplicación en local es una tarea muy sencilla. Lo primero que vamos a hacer es clonar el repositorio de proyecto global en nuestro equipo. Para ello ejecutaremos en consola dentro de la carpeta donde queramos clonar el proyecto, el siguiente comando
