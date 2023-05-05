@@ -513,7 +513,7 @@ Las dependencias utilizadas en el proyecto son:
 - bcrypt==1.7.4: Es una biblioteca de hash de contraseñas en Python que proporciona herramientas para la generación y verificación de contraseñas seguras.
 - python-jose==3.3.0: Es una biblioteca de Python para JSON Object Signing and Encryption (JOSE) que proporciona herramientas para codificar y decodificar tokens de autenticación JSON Web Tokens (JWT) y para cifrar y descifrar datos en JSON.
         
-<a name="general-info"></a>
+<a name="installation"></a>
 
 ## Instalación
 
