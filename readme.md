@@ -486,7 +486,7 @@ Fastapi es fácil de usar y su [documentación](https://fastapi.tiangolo.com/es/
 
 #### App Engine de Google Cloud Platform
 
-Para realizar el despliegue del proyecto de la API en cloud hemos optado por App Engine.  Google App Engine es otro de los servicios que conforman la familia de Google Cloud Platform. Este servicio es del tipo Plataforma como Servicio o Platform as a Service (PaaS), nos permite publicar aplicaciones web en línea sin necesidad de preocuparnos por la parte de la infraestructura y con un enfoque 100% en la construcción de nuestra aplicación y en la posibilidad de correrla directamente sobre la infraestructura de Google, es decir, la que Google usa para sus propios productos.
+Para realizar el despliegue del proyecto de la API en cloud hemos optado por [App Engine](https://cloud.google.com/appengine).  Google App Engine es otro de los servicios que conforman la familia de Google Cloud Platform. Este servicio es del tipo Plataforma como Servicio o Platform as a Service (PaaS), nos permite publicar aplicaciones web en línea sin necesidad de preocuparnos por la parte de la infraestructura y con un enfoque 100% en la construcción de nuestra aplicación y en la posibilidad de correrla directamente sobre la infraestructura de Google, es decir, la que Google usa para sus propios productos.
 
 Como cualquier otra Plataforma como Servicio, App Engine nos facilita construir, mantener y escalar nuestra aplicación en la medida que sea necesario. Cuando usamos Google App Engine (GAE) no nos tenemos que preocupar por la escalabilidad de nuestra aplicación ya que cuenta con un balanceador de carga y escalamiento automático.
 
@@ -519,4 +519,53 @@ Las dependencias utilizadas en el proyecto son:
 
 #### Local
 
-Levantar la aplicación en local es una tarea muy sencilla. Lo primero que vamos a hacer es clonar el repositorio de proyecto global en nuestro equipo. Para ello ejecutaremos en consola dentro de la carpeta donde queramos clonar el proyecto, el siguiente comando
+Levantar la aplicación en local es una tarea muy sencilla. Lo primero que vamos a hacer es clonar el repositorio de proyecto global en nuestro equipo. Para ello ejecutaremos en consola dentro de la carpeta donde queramos clonar el proyecto, el siguiente comando.
+
+```
+$ git clone https://github.com/BrainWaveBullying/BullyingProject.git
+
+```
+
+Una vez tengamos clonado el repositorio navegaremos hasta la carpeta del proyecto de la api con el siguiente comando
+
+´´´
+
+$ cd API
+
+Una vez dentro de esa carpeta, crearemos el entorno virtual para instalar todas la dependencias necesarias y lo activaremos
+
+```
+
+$ virtualenv env
+$ cd env/Scripts/activate
+
+```
+
+y volvemos a la carpeta inicial ejecutando dos veces el comando siguente
+
+```
+cd ..
+
+```
+
+Tras estos pasos procederemos a la instalacion de requirements.txt
+
+```
+
+$ pip install -r requirements.txt
+
+```
+
+Con esto tendremos el entorno virtual listo para poder levantar la aplicación. Para ello usaremos el siguiente comando en consola
+
+```
+
+uvicorn main:app --reload
+
+```
+
+Y en este momento tendremos la aplicación levantada en https://localhosts:8080, y lista para funcionar.
+
+
+#### Local
+
