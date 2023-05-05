@@ -556,7 +556,7 @@ Con esto tendremos el entorno virtual listo para poder levantar la aplicación. 
 uvicorn main:app --reload
 ```
 
-Y en este momento tendremos la aplicación levantada en https://localhosts:8080, y lista para funcionar.
+Y en este momento tendremos la aplicación levantada en https://localhosts:8000, y lista para funcionar.
 
 
 #### Despliegue en GCP(App Engine)
