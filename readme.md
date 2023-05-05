@@ -529,43 +529,38 @@ $ git clone https://github.com/BrainWaveBullying/BullyingProject.git
 Una vez tengamos clonado el repositorio navegaremos hasta la carpeta del proyecto de la api con el siguiente comando
 
 ´´´
-
-$ cd API
+$ cd API/
+```
 
 Una vez dentro de esa carpeta, crearemos el entorno virtual para instalar todas la dependencias necesarias y lo activaremos
 
 ```
-
 $ virtualenv env
 $ cd env/Scripts/activate
-
 ```
 
 y volvemos a la carpeta inicial ejecutando dos veces el comando siguente
 
 ```
 cd ..
-
 ```
 
 Tras estos pasos procederemos a la instalacion de requirements.txt
 
 ```
-
 $ pip install -r requirements.txt
-
 ```
 
 Con esto tendremos el entorno virtual listo para poder levantar la aplicación. Para ello usaremos el siguiente comando en consola
 
 ```
-
 uvicorn main:app --reload
-
 ```
 
 Y en este momento tendremos la aplicación levantada en https://localhosts:8080, y lista para funcionar.
 
 
-#### Local
+#### Despliegue en GCP(App Engine)
+
+
 
