@@ -30,7 +30,9 @@ class Config:
     MODEL_FILE = os.environ.get('MODEL_FILE')
     SCALER_FILE = os.environ.get('SCALER_FILE')
     MODEL_NAME = os.environ.get('MODEL_NAME')
-    SCALER_NAME = os.environ.get('MODEL_NAME')
+    SCALER_NAME = os.environ.get('SKALER_NAME')
 
+
+    
 
     

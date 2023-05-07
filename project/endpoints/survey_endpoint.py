@@ -16,44 +16,6 @@ from project.service.predict import PreprocesingAndPredict
 from project.db import get_db, db 
 from project.config import Config
 
-"""settings = Config()
-
-router = APIRouter(
-    prefix= '/survey',
-    tags= ['survey']
-)
-
-@router.post(
-    "/{student_id}",
-    response_model = Dict,
-    summary = "permite acceder a la encuesta a traves del id del alumno, verificando que exista el id registrado y devuelve un json con las preguntas del test",
-    dependencies = [Depends(get_db)])
-def get_cuestions( ques : SurveyQuestions= Body(...)):    
-    questions = get_cuestions_to_db(ques.student_id)
-    return {"questions": questions}
-        
-@router.post(
-    "/submit",
-    response_model= Dict,
-    summary = "permite almacenar la encuesta a traves del id del alumno en la base de datos",
-    dependencies = [Depends(get_db)])
-
-def save_survey_and_predict(answers : SurveyAnswers = Body(...)): 
-    student_id= answers.student_id,
-    student_answers = answers.answers
-    model_id = settings.model_id
-    master=create_item_master(#crea la entrada en la tabla master
-        student_id= student_id,
-        model_id = model_id
-         )
-    save_answers_students(
-        student_id = student_id, 
-        model_id = model_id, 
-        answers = student_answers)
-
-    #predict = PreprocesingAndPredict()
-    return 
-"""
 settings = Config()
 
 router = APIRouter(
@@ -82,7 +44,6 @@ def submit_survey_answers(answers : SurveyAnswers = Body(...)):
     model_id = settings.model_id
     master = create_item_master(student_id=student_id, model_id=model_id)
     entry_id = master.entry_id
-    print(entry_id)
-    msg = save_survey_answers(entry_id=entry_id, model_id=model_id, answers=student_answers)
-    
-    return {'master':msg}
+    data = save_survey_answers(entry_id=entry_id, model_id=model_id, answers=student_answers)
+    predictions = predict(data, entry_id)
+    return {'master': True}
