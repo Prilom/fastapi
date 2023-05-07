@@ -1,7 +1,7 @@
 import uuid
 
 from datetime import datetime
-from peewee import DoesNotExist, JOIN
+from peewee import DoesNotExist, JOIN,fn, Case
 from fastapi import HTTPException, Depends
 
 from typing import List
@@ -57,11 +57,13 @@ def get_student_info(student_id):
           'BAC' : 'BACHILLERATO'
             }
 
-    level = student_id[9:12]
+    
+    initial_level = student_id[9:12]
+    level =  levels[initial_level]
     course = student_id[12:13]
     room = student_id[15:16]
     return {
-        'level': levels[level],
+        'level': level,
         'course': f'Curso {course}',
         'room': f'Aula {room}'
              }
@@ -80,34 +82,35 @@ def read_predict(
         }
       #Realizamos la consulta
       query = (
-            Student
-            .select(
-                  Student.student_id,
-                  Master.prediction,
-                  Master.prob_prediction
-            )
-            .join(Master,
-                  JOIN.LEFT_OUTER,
-                  on=(Master.student_id == Student.student_id).alias('Master')
-            )
-            .where(
-                  (Student.school_id == school_id) &
-                  (Student.dt_insert.month == date_obj.month) &
-                  (Student.dt_insert.year == date_obj.year)
-            ))     
+        Student
+        .select(
+            Student.student_id,
+            Master.prob_prediction,
+            fn.Case(None, (
+                (Master.prob_prediction >= 0.9, "A"),
+                (Master.prob_prediction >= 0.7, "B"),
+                (Master.prob_prediction >= 0.5, "C")
+            ), "D").alias('prob_category')
+        )
+        .join(Master, JOIN.LEFT_OUTER, on=(Master.student_id == Student.student_id))
+        .where(
+            (Student.school_id == school_id) &
+            (Student.dt_insert.month == date_obj.month) &
+            (Student.dt_insert.year == date_obj.year)
+        )
+    )
       
       #Creamos el formato de la respuesta
       results = {}
       for record in query:
             student_data = record
             student_id = student_data.student_id
+            prob_category = student_id.prob_category
             student_info = get_student_info(student_id)
             #comprobamos que exista la prediccion, de no ser asi, devolvera None
             try:
-                  prediction = student_data.Master.prediction
                   prob_prediction = student_data.Master.prob_prediction
             except AttributeError:
-                  prediction = None
                   prob_prediction = None
             
             level = student_info['level']
@@ -122,10 +125,9 @@ def read_predict(
                   results[level][course][room] = []
            
             
-            results[level][course][room].append({
-                  'student_id': student_id,
-                 'prediction': prediction,
-                 'prob_prediction': prob_prediction
+            results[level][course][room][student_id].append({
+                  'prob_prediction': prob_prediction,
+                  'prob_category': prob_category
             })
             
       # Ordenar estudiantes por id
@@ -147,7 +149,7 @@ def read_predict(
                   level: {
                   course: {
                         room: sorted(results[level][course][room], 
-                                    key=lambda x: (x['prediction'] is None, x['prediction']))
+                                    key=lambda x: (x['prob_prediction'] is None, x['prob_prediction']))
                         for room in sorted(results[level][course])
                   }
                   for course in sorted(results[level])
