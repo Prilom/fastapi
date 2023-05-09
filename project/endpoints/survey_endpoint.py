@@ -44,6 +44,9 @@ def submit_survey_answers(answers : SurveyAnswers = Body(...)):
     model_id = settings.model_id
     master = create_item_master(student_id=student_id, model_id=model_id)
     entry_id = master.entry_id
-    data = save_survey_answers(entry_id=entry_id, model_id=model_id, answers=student_answers)
-    predictions = predict(data, entry_id)
-    return {'master': True}
+    save_survey_answers(entry_id=entry_id, model_id=model_id, answers=student_answers)
+    predictions = predict.predict(student_answers, entry_id)
+    prediction_value = predictions[0]
+    prediction_probability = predictions[1]
+    return {"prediction": True}
+        
